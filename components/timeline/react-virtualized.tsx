@@ -56,7 +56,7 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
   const boxInterval = getBoxInterval(Timelienzoom, totalduration);
 
   const boxCount = Math.ceil(
-    Math.max(30, totalduration / 30 / boxInterval) + 100
+    Math.max(30, totalduration / 30 / boxInterval) + 20
   );
 
   // Array.from({ length: boxCount }, (_, index) => index * boxInterval);

@@ -55,7 +55,7 @@ const ExampleGrid: React.FC<boxCountProps> = ({ boxCount = 0, unit = 0 }) => {
 
   const cols = boxCount;
   const rowHeight = 45;
-  const totalWidth = 10 * boxCount;
+  const totalWidth = 10 * (boxCount *10);
 
   // console.log(
   //   "boxCount",
@@ -121,7 +121,7 @@ const ExampleGrid: React.FC<boxCountProps> = ({ boxCount = 0, unit = 0 }) => {
         currentEnd = interval.end;
       }
     });
-    dispatch(settotalduration(Math.round(totalUniqueDuration /10)));
+    dispatch(settotalduration(Math.round(totalUniqueDuration)));
     // console.log("Total Duration :", totalUniqueDuration / 30);
   }, [Allclips, dispatch, unit]);
 
@@ -258,7 +258,7 @@ const ExampleGrid: React.FC<boxCountProps> = ({ boxCount = 0, unit = 0 }) => {
             style={{
               backgroundImage: `url(${clip.properties.src})`,
               backgroundRepeat: "repeat-x",
-              backgroundSize: `${totalWidth / cols *10}px 45px`,
+              backgroundSize: `${totalWidth / cols}px 45px`,
             }}
           >
             {/* Left Side */}
@@ -282,7 +282,7 @@ const ExampleGrid: React.FC<boxCountProps> = ({ boxCount = 0, unit = 0 }) => {
             className={`timeline-clip-style flex items-center rounded-lg overflow-hidden`}
             style={{
               backgroundImage: `url(${clip.properties.videothumbnail})`,
-              backgroundSize: `${totalWidth / cols*10}px 45px`,
+              backgroundSize: `${totalWidth / cols}px 45px`,
               backgroundRepeat: "repeat-x",
             }}
           >
@@ -333,7 +333,7 @@ const ExampleGrid: React.FC<boxCountProps> = ({ boxCount = 0, unit = 0 }) => {
             style={{
               backgroundImage: `url(${clip.properties.src})`,
               backgroundRepeat: "repeat-x",
-              backgroundSize: `${totalWidth / cols*10}px 45px`,
+              backgroundSize: `${totalWidth / cols}px 45px`,
             }}
           >
             {/* Left Side */}
