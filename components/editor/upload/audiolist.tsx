@@ -99,6 +99,8 @@ const AudioList: React.FC = () => {
         width: 0,
         height: 0,
         rotation: 0,
+        TrimStart: 0,
+        TrimEnd: audio.duration,
         left: 0,
         zindex: 0,
         isDragging: false,
