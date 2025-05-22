@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { Player, PlayerRef } from "@remotion/player";
 import type { NextPage } from "next";
-import React, { useMemo, useRef, useState, useEffect, useCallback } from "react";
+import React, { useMemo, useRef, useState, useEffect, useCallback, act } from "react";
 import { Main } from "../remotion/MyComp/Main";
 import { CompositionProps, VIDEO_FPS } from "../types/constants";
 import { z } from "zod";
@@ -512,11 +512,11 @@ const Home: NextPage = () => {
     setIsEditing(false);
   };
 
-// clip split functionlity 
+  // clip split functionlity 
 
-const handleClipSplit = () => {
-   dispatch(requestSplit());
-}
+  const handleClipSplit = () => {
+    dispatch(requestSplit());
+  }
 
 
   return (
@@ -798,7 +798,9 @@ const handleClipSplit = () => {
                     {/* PLAY BUTTON  */}
                     <div className="play-pause-wrapper">
 
-                      <button onClick={handleClipSplit} className="me-10 flex items-center">
+
+                      <button disabled={!Activeid.startsWith("video-")} 
+                       onClick={handleClipSplit} className="me-10 flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
                         <span className="flex items-center gap-2">
                           <LuSquareSplitHorizontal /> Split
                         </span>
