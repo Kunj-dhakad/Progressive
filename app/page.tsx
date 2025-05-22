@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { Player, PlayerRef } from "@remotion/player";
 import type { NextPage } from "next";
-import React, { useMemo, useRef, useState, useEffect, useCallback, act } from "react";
+import React, { useMemo, useRef, useState, useEffect, useCallback, } from "react";
 import { Main } from "../remotion/MyComp/Main";
 import { CompositionProps, VIDEO_FPS } from "../types/constants";
 import { z } from "zod";
