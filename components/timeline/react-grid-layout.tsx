@@ -21,7 +21,7 @@ interface boxCountProps {
 
 const ExampleGrid: React.FC<boxCountProps> = ({ boxCount = 0, unit = 0 }) => {
 
- console.log("boxCount", boxCount, "unit", unit);
+//  console.log("boxCount", boxCount, "unit", unit);
   const Allclips = useSelector(
     (state: RootState) => state.slices.present.Allclips
   );

@@ -54,11 +54,11 @@ import {
   BiSolidCloudUpload,
   BiText
 } from "react-icons/bi";
-import { BsMusicNoteList } from "react-icons/bs";
-import {
-  //  MdInterests,
-  MdTune
-} from "react-icons/md";
+// import { BsMusicNoteList } from "react-icons/bs";
+// import {
+//   //  MdInterests,
+//   MdTune
+// } from "react-icons/md";
 // import { ActionCreators } from "redux-undo";
 import EmojiEditTool from "../components/editor/tool/emoji_edit_tool";
 import { updateProjectSettings } from "./store/project_settingsSlice ";
@@ -543,7 +543,7 @@ const handleClipSplit = () => {
           </div>
 
           <div className="sidebar-items-list">
-            <div className="sidebar-items">
+            {/* <div className="sidebar-items">
               <button
                 onClick={() => dispatch(settoolbarview("menu"))}
                 className="items-link"
@@ -551,7 +551,7 @@ const handleClipSplit = () => {
                 <MdTune className="" style={{ color: "white" }} />
                 <span className="item-text">Setup</span>
               </button>
-            </div>
+            </div> */}
 
             <div className="sidebar-items">
               <button
@@ -559,7 +559,7 @@ const handleClipSplit = () => {
                 className="items-link"
               >
                 <MdPermMedia className="text-white" />
-                <span className="item-text">Media</span>
+                <span className="item-text">template</span>
               </button>
             </div>
 
@@ -569,7 +569,7 @@ const handleClipSplit = () => {
                 className="items-link"
               >
                 <BiSolidCloudUpload className="text-white" />
-                <span className="item-text">Setup</span>
+                <span className="item-text">Media</span>
               </button>
             </div>
             <div className="sidebar-items">
@@ -578,7 +578,7 @@ const handleClipSplit = () => {
                 className="items-link"
               >
                 <BiText className="" style={{ color: "white" }} />
-                <span className="item-text">Setup</span>
+                <span className="item-text">text</span>
               </button>
             </div>
 
@@ -588,7 +588,7 @@ const handleClipSplit = () => {
                 className="items-link"
               >
                 <FaImage style={{ color: "white" }} />
-                <span className="item-text">Setup</span>
+                <span className="item-text">image</span>
               </button>
             </div>
 
@@ -598,7 +598,7 @@ const handleClipSplit = () => {
                 className="items-link"
               >
                 <FaVideo className="text-white" />
-                <span className="item-text">Setup</span>
+                <span className="item-text">video</span>
               </button>
             </div>
 
@@ -608,19 +608,19 @@ const handleClipSplit = () => {
                 className="items-link"
               >
                 <MdInterests className="text-white" />
-                <span className="item-text">Setup</span>
+                <span className="item-text">Elements</span>
               </button>
             </div>
 
-            <div className="sidebar-items">
+            {/* <div className="sidebar-items">
               <button
                 onClick={() => dispatch(settoolbarview("audio"))}
                 className="items-link"
               >
                 <BsMusicNoteList className="text-white" />
-                <span className="item-text">Setup</span>
+                <span className="item-text">Audio</span>
               </button>
-            </div>
+            </div> */}
 
           </div>
         </div>
