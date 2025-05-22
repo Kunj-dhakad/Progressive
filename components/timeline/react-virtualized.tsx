@@ -19,6 +19,7 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
     (state: RootState) => state.slices.present.Timelienzoom
   );
 
+  
   const getBoxInterval = (zoom: number, totalduration: number) => {
     const durationInMinutes = totalduration / 30 / 60; //30 frmae  60sec
 
@@ -56,10 +57,11 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
   const boxInterval = getBoxInterval(Timelienzoom, totalduration);
 
   const boxCount = Math.ceil(
-    Math.max(30, totalduration / 30 / boxInterval) + 20
-  );
+    Math.max(30, totalduration / 3 / boxInterval) + 20
+  ); // 30 is the minimum box count
+  // 3 is a (1 box = 3 frame )
+  //20 is the extra box count to ensure the scrollbar is always visible
 
-  // Array.from({ length: boxCount }, (_, index) => index * boxInterval);
 
   const SeekWidth: number = (totalduration / (boxInterval * 30) * 100)
   //  console.log("SeekWidth",SeekWidth)
@@ -122,7 +124,6 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
       </div>
       <div className="absolute top-4">
         <div className="sticky top-6 z-10">
-          {/* <SeekBar unit={boxInterval * 30} /> */}
           <div style={{ width: `${SeekWidth}px` }}>
             <SeekBar
               durationInFrames={totalduration}
@@ -132,21 +133,15 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
           </div>
         </div>
         <div className="ms-2">
-          <ExampleGrid boxCount={boxCount} unit={boxInterval * 30} />
+          <ExampleGrid boxCount={boxCount} unit={(boxInterval * 30/10)} />
         </div>
       </div>
     </div>
   );
 };
 
-// // Time formatter
-// const formatTime = (time: number) => {
-//   const minutes = Math.floor(time / 60);
-//   const seconds = time % 60;
 
-//   if (seconds === 0) return `${minutes}m`;
-//   return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}s`;
-// };
+
 const formatTime = (time: number) => {
   if (time < 1) return "";
   const minutes = Math.floor(time / 60).toString().padStart(2, "0");

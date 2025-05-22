@@ -381,6 +381,7 @@ export const SeekBar: React.FC<{
   }, [durationInFrames, frame, inFrame]);
 
   const leftPosition: React.CSSProperties = useMemo(() => {
+    // console.log("leftPosition", frame, inFrame);
     return {
       left: 5,
       top:"15px",
