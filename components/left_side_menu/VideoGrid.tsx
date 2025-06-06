@@ -104,7 +104,7 @@ const VideoGrid: React.FC = () => {
       properties: {
         src: url,
         start: playercurrentframe,
-        duration: duration*30|| 120,
+        duration: duration * 30 || 120,
         top: bg_height / 2 - scaledHeight / 2,
         left: bg_width / 2 - scaledWidth / 2,
         height: scaledHeight,
@@ -113,7 +113,7 @@ const VideoGrid: React.FC = () => {
         rotation: 0,
         zindex: 1,
         TrimStart: 1,
-        TrimEnd: duration*30 || 120,
+        TrimEnd: duration * 30 || 120,
         videothumbnail: tmb || url,
         isDragging: false,
         borderRadius: "0",
@@ -124,12 +124,12 @@ const VideoGrid: React.FC = () => {
   };
 
   const compresthumbnail = async (videoUrl: string, imageUrl: string, h: number, w: number, duration: number) => {
-   
-  //  console.log("durationduration", duration)
-   
-   
-   
-   
+
+    //  console.log("durationduration", duration)
+
+
+
+
     // try {
     //   const metadata = await getVideoMetadata(videoUrl);
     //   setVideoDuration(Math.floor(metadata.durationInSeconds) * 30);
@@ -256,7 +256,9 @@ const VideoGrid: React.FC = () => {
                 alt=""
                 onClick={() =>
                   compresthumbnail(
-                    `${video.video_files[0].link}`,
+                    // `${video.video_files[0].link}`,
+                    `https://kdmeditor.s3.us-east-1.amazonaws.com/kd_videoeditor/extra/generated_1748517690_6759.mp4`,
+
                     `${video.image}`,
                     video.video_files[0].height,
                     video.video_files[0].width,

@@ -1,14 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useCurrentScale } from "remotion";
 import { ResizeHandle } from "./ResizeHandle";
-import { 
+import {
   Allclips,
   //  setActiveid 
-  } from "../../../app/store/clipsSlice";
-  import {   setActiveid } from "../../../app/store/editorSetting";
+} from "../../../app/store/clipsSlice";
+import {
+  setActiveid,
+  //  textsetEditingClipId 
+} from "../../../app/store/editorSetting";
 import { useDispatch } from "react-redux";
 import { ContextMenu } from "../../../components/editor/tool/ContextMenupopup";
 import { Animated, Move } from "remotion-animated";
+import { FloatingToolbar } from "../../../components/editor/tool/FloatingToolbar";
 export const SelectionOutline: React.FC<{
   item: Allclips;
   changeItem: (itemId: string, updater: (item: Allclips) => Allclips) => void;
@@ -48,7 +52,9 @@ export const SelectionOutline: React.FC<{
           : undefined,
       userSelect: "none",
       touchAction: "none",
-      cursor: "move",
+      // cursor: "move",
+      cursor: isDragging ? "move" : "default",
+      pointerEvents: "auto",
       zIndex: (100 - item.properties.zindex) - zindexlow,
     };
   }, [item, hovered, isDragging, isSelected, scaledBorder, zindexlow]);
@@ -117,32 +123,52 @@ export const SelectionOutline: React.FC<{
   }, [isSelected]);
 
 
-  const onDoubleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setZindexlow(30)//add for zindex lower set
-  };
+  // const onDoubleClick = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   setZindexlow(30)//add for zindex lower set
+  //   if (item.type === "text") {
+  //     console.log("Double clicked on text item:", item.id);
+  //     dispatch(textsetEditingClipId(true)); // <-- set edit mode
 
+  //   }
+  // };
 
+  const onclicktrack = () => {
+    if (isSelected) {
+      setZindexlow(10) //add for zindex lower set
+      console.log("first click on track")
+    }
+
+  }
 
   const contentElement = (<div
     onPointerDown={onPointerDown}
     onPointerEnter={onMouseEnter}
     onPointerLeave={onMouseLeave}
     onContextMenu={oncontextmenu}
-    onDoubleClick={onDoubleClick}//add for zindex lower set
+    onClick={onclicktrack}
+  // onDoubleClick={onDoubleClick}//add for zindex lower set
   >
+    {isSelected && !isDragging &&
+      <div
+        style={{
+          left:
+            item.properties.left + (item.properties.width + scaledBorder) / 2,
+          top: item.properties.top - 200,
+          zIndex: 9999,
+        }}
+        className="absolute "
+      >
+        <FloatingToolbar Allclip={item} />
+      </div>}
     <div style={style}>
       {isSelected ? (
         <>
           <ResizeHandle item={item} setItem={changeItem} type="top-left" />
           <ResizeHandle item={item} setItem={changeItem} type="top-right" />
           <ResizeHandle item={item} setItem={changeItem} type="bottom-left" />
-          <ResizeHandle
-            item={item}
-            setItem={changeItem}
-            type="bottom-right"
-          />
+          <ResizeHandle item={item} setItem={changeItem} type="bottom-right" />
         </>
       ) : null}
     </div>
@@ -208,3 +234,5 @@ export const SelectionOutline: React.FC<{
 
   );
 };
+
+

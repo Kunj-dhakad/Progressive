@@ -26,6 +26,7 @@ interface editorSettingData { // Fixed typo
     | "main_container_bg"
     bgRemovingMap: { [videoId: string]: boolean };
     clipsplitRequested: boolean;
+    TexteditingClipId: boolean,
 
 }
 
@@ -37,6 +38,8 @@ const initialSettingsState: editorSettingData = {
     toolbarview: "heygen_video_list",
     bgRemovingMap: {},
     clipsplitRequested: false,
+    TexteditingClipId: false,
+
 };
 
 const editorTool = createSlice({
@@ -85,8 +88,16 @@ const editorTool = createSlice({
             state.bgRemovingMap[action.payload.id] = action.payload.value;
         },
 
+
+        textsetEditingClipId: (state, action) => {
+            state.TexteditingClipId = action.payload; // <-- add this
+        },
+        textclearEditingClipId: (state) => {
+            state.TexteditingClipId = false;
+        },
+
     },
 });
 
-export const {  requestSplit, resetSplitRequest, setActiveid, setBgRemoving, setsaveDraftId, setSaveDraftname, MiddleSectionVisibleaction, settoolbarview, } = editorTool.actions;
+export const {textsetEditingClipId,textclearEditingClipId, requestSplit, resetSplitRequest, setActiveid, setBgRemoving, setsaveDraftId, setSaveDraftname, MiddleSectionVisibleaction, settoolbarview, } = editorTool.actions;
 export default editorTool.reducer;

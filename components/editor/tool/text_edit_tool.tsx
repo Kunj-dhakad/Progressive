@@ -205,7 +205,7 @@ const TextEditTool: React.FC = () => {
 
             </div>
             {/* Font Family */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="theme-small-text mb-2">
                 Font Family
               </label>
@@ -221,6 +221,30 @@ const TextEditTool: React.FC = () => {
                   <option className={`${font.font_class}`} key={index} value={`${font.name}`}>{font.name.replace(/['"]/g, '')}</option>
 
                 ))}
+              </select>
+            </div> */}
+
+            <div className="mb-4">
+              <label className="theme-small-text mb-2">
+                Font Family
+              </label>
+              <select
+                className="kd-form-input"
+                value={fontFamily}
+                onChange={(e) => {
+                  setFontFamily(e.target.value);
+                  value_update({ fontFamily: e.target.value });
+                }}
+              >
+                {fontfamilys && fontfamilys.length > 0 ? (
+                  fontfamilys.map((font, index) => (
+                    <option className={`${font.font_class}`} key={index} value={font.name}>
+                      {font.name.replace(/['"]/g, '')}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No fonts available</option>
+                )}
               </select>
             </div>
 

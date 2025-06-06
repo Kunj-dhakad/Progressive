@@ -57,7 +57,7 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
   const boxInterval = getBoxInterval(Timelienzoom, totalduration);
 
   const boxCount = Math.ceil(
-    Math.max(30, totalduration / 3 / boxInterval) + 20
+    Math.max(30, totalduration / 3 / boxInterval) + 10
   ); // 30 is the minimum box count
   // 3 is a (1 box = 3 frame )
   //20 is the extra box count to ensure the scrollbar is always visible
@@ -85,9 +85,9 @@ const RV: React.FC<{ playerRef: React.RefObject<PlayerRef> }> = ({
         }
 
       `}</style>
-      <div className="sticky top-0 z-10 flex">
+      <div className="sticky top-0 z-10 flex ms-1">
         {Array.from(
-          { length: boxCount },
+          { length: boxCount /10+15 },
           (_, index) => index * boxInterval
         ).map((startTime) => (
           <div
