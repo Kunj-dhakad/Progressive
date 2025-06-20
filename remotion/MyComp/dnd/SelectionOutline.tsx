@@ -136,8 +136,11 @@ export const SelectionOutline: React.FC<{
 
   const onclicktrack = () => {
     if (isSelected) {
-      setZindexlow(10) //add for zindex lower set
-      console.log("first click on track")
+      if (item.type === "text") {
+        setZindexlow(10) //add for zindex lower set
+        console.log("first click on track")
+      }
+
     }
 
   }

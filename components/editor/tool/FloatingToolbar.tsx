@@ -3,9 +3,9 @@ import { Allclips, } from "../../../app/store/clipsSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store/store";
 import { TextFT } from "../helper/toolbarhelper/textFT";
-import { ImageFT } from "../helper/toolbarhelper/imageFt";
-import { EmojiFT } from "../helper/toolbarhelper/emojiFt";
-import { VideoFT } from "../helper/toolbarhelper/videoft";
+// import { ImageFT } from "../helper/toolbarhelper/imageFt";
+// import { EmojiFT } from "../helper/toolbarhelper/emojiFt";
+// import { VideoFT } from "../helper/toolbarhelper/videoft";
 type FloatingToolbarProps = {
   Allclip: Allclips;
 };
@@ -30,13 +30,15 @@ export const FloatingToolbar: React.FC<FloatingToolbarProps> = ({ Allclip }) => 
 
       {Activeclip?.type === "text" ? (
         <TextFT Allclip={Allclip} />
-      ) : Activeclip?.type === "image" ? (
-        <ImageFT Allclip={Allclip} />
-      ) : Activeclip?.type === "video" ? (
-        <VideoFT Allclip={Allclip} />
-      ) : Activeclip?.type === "emoji" ? (
-        <EmojiFT Allclip={Allclip} />
-      ) : null}
+      ) 
+      // : Activeclip?.type === "image" ? (
+      //   <ImageFT Allclip={Allclip} />
+      // ) : Activeclip?.type === "video" ? (
+      //   <VideoFT Allclip={Allclip} />
+      // ) : Activeclip?.type === "emoji" ? (
+      //   <EmojiFT Allclip={Allclip} />
+      // )
+       : null}
 
     </div>
 

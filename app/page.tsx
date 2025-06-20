@@ -44,7 +44,11 @@ import { PlayPauseButton } from "../components/editor/playercontroll/PlayPauseBu
 import { MdInterests, MdPermMedia } from "react-icons/md";
 import UndoRedo from "../components/editor/playercontroll/undoRedp";
 
-import { FaVideo, FaImage, FaAngleLeft } from "react-icons/fa";
+import { FaVideo, FaImage, FaAngleLeft,
+  //  FaAlignLeft,
+    // FaAlignCenter,
+    //  FaAlignRight 
+    } from "react-icons/fa";
 // import {
 //   PiMagnifyingGlassMinusThin,
 //   PiMagnifyingGlassPlusThin,
@@ -78,6 +82,7 @@ import { sendToastToParent } from "../components/editor/helper/sendToastToParent
 import { useClipDuplicateHelper } from "../components/editor/helper/clip_dublicate_helper";
 import MainContainerBg from "../components/left_side_menu/main_container_bg";
 import { LuSquareSplitHorizontal } from 'react-icons/lu';
+import ScreenShot from '../components/editor/tool/player_screenshot';
 
 
 const Home: NextPage = () => {
@@ -631,9 +636,9 @@ const Home: NextPage = () => {
 
           {/* header start */}
           <div className="theme-header">
-            <SetupPopup />
+             <SetupPopup />
 
-
+             
 
             <div className="mid-content flex items-center text-white gap-2">
               {isEditing ? (
@@ -664,6 +669,8 @@ const Home: NextPage = () => {
                 </>
               )}
             </div>
+
+          <div><ScreenShot inputProps={inputProps} /></div>
 
 
             <div className="right-content flex items-center gap-3">
@@ -760,6 +767,27 @@ const Home: NextPage = () => {
             {/* Player Section */}
             <div className={`${isMiddleSectionVisible === true ? "col-span-9 editor-view" : "col-span-12 editor-view"}`} >
 
+
+              {/* <div className='text-white flex items-center justify-center'>
+
+                <button
+                   className="p-2 rounded" title="Align Left">
+                  <FaAlignLeft fontSize={15} />
+                </button>
+
+                <button
+                  className="p-2rounded" title="Align Center">
+                  <FaAlignCenter fontSize={15} />
+                </button>
+                <button
+                 
+                  className="p-2 rounded" title="Align Right">
+                  <FaAlignRight fontSize={15} />
+                </button>
+
+              </div> */}
+
+
               <div onPointerDown={onPointerDown} style={{ overflow: 'hidden', zIndex: 1, height: `calc(100% - ${100 - mainContentHeight}%)`, }} className="relative flex items-center justify-center customPlayer" >
 
                 <div className="m-5">
@@ -799,8 +827,8 @@ const Home: NextPage = () => {
                     <div className="play-pause-wrapper">
 
 
-                      <button disabled={!Activeid.startsWith("video-")} 
-                       onClick={handleClipSplit} className="me-10 flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
+                      <button disabled={!Activeid.startsWith("video-")}
+                        onClick={handleClipSplit} className="me-10 flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
                         <span className="flex items-center gap-2">
                           <LuSquareSplitHorizontal /> Split
                         </span>
