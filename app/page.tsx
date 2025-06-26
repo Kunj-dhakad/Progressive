@@ -199,7 +199,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const Initialdata = (event: MessageEvent) => {
-      console.log(event.data)
+      // console.log(event.data)
       if (event.data.action === 'sendProjectInfo') {
         themeSetCSSVariables(event.data)
         dispatch(updateProjectSettings(event.data));
@@ -223,7 +223,7 @@ const Home: NextPage = () => {
       // console.log("temlateOpenInEditor",event.data);
 
       if (event.data.action === 'temlateOpenInEditor') {
-        console.log("temlateOpenInEditor", event.data);
+        // console.log("temlateOpenInEditor", event.data);
         Set_template(event.data.template_url)
         dispatch(setSaveDraftname(event.data.project_name));
         dispatch(setsaveDraftId(event.data.id));
@@ -243,7 +243,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data.action === 'videoOpenInEditor') {
-        console.log("videoOpenInEditor", event.data);
+        // console.log("videoOpenInEditor", event.data);
         dispatch(setSaveDraftname(event.data.project_name));
         dispatch(setsaveDraftId(event.data.id));
         add_video_clip(event.data.url, event.data.thumbnail_url, event.data.width,
@@ -443,7 +443,7 @@ const Home: NextPage = () => {
   // console.log("isMiddleSectionVisible", isMiddleSectionVisible)
   // console.log("view", view)
   useEffect(() => {
-    console.log("isMiddleSectionVisible", isMiddleSectionVisible)
+    // console.log("isMiddleSectionVisible", isMiddleSectionVisible)
     // console.log("view", toolbarview)
     if (toolbarview === "") {
       dispatch(MiddleSectionVisibleaction(false));

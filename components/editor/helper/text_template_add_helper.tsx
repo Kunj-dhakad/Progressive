@@ -17,7 +17,7 @@ export const useTextTemplateSet = () => {
             const payload = JSON.parse(jsonData.inputProps.payload);
 
             payload.Allclips.forEach((clip: Allclips) => {
-                console.log(clip)
+                // console.log(clip)
                 dispatch(
                     addClip({
                         ...clip,

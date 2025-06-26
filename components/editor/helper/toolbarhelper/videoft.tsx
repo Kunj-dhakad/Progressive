@@ -30,7 +30,7 @@ export const VideoFT: React.FC<FloatingToolbarProps> = ({ Allclip }) => {
   const Allclips = useSelector(
     (state: RootState) => state.slices.present.Allclips
   );
-  console.log("FloatingToolbar Allclips:", Allclips);
+  // console.log("FloatingToolbar Allclips:", Allclips);
 
   const Activeid = useSelector(
     (state: RootState) => state.editorTool.Activeid

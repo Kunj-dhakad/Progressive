@@ -61,7 +61,30 @@ export const ImageClipSchema = z.object({
     transform: z.string(),
     isDragging: z.boolean(),
 
-
+ animation: z.object({
+      in: z.object({
+        type: z.union([
+          z.literal("None"),
+          z.literal("Fade"),
+          z.literal("Zoom"),
+          z.literal("Slide"),
+        ]),
+        duration: z.number(),
+        slideDistanceX: z.number().optional(),
+        slideDistanceY: z.number().optional(),
+      }),
+      out: z.object({
+        type: z.union([
+          z.literal("None"),
+          z.literal("Fade"),
+          z.literal("Zoom"),
+          z.literal("Slide"),
+        ]),
+        duration: z.number(),
+        slideDistanceX: z.number().optional(),
+        slideDistanceY: z.number().optional(),
+      }),
+    }),
   }),
 });
 

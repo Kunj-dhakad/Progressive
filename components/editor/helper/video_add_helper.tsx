@@ -11,7 +11,7 @@ export const useVideoAddHelper = () => {
     const dispatch = useDispatch();
 
     function add_video_clip(url: string, thumbnail_url: string, width: number, height: number, duration: number, bg_height: number, bg_width: number) {
-       console.log("datattttt",bg_width,bg_width,url,thumbnail_url,width,height)
+    //    console.log("datattttt",bg_width,bg_width,url,thumbnail_url,width,height)
         dispatch(updateVideoSettings({
             videowidth: Number(bg_width),
             videoheight: Number(bg_height),

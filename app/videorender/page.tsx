@@ -140,12 +140,12 @@ const Home: NextPage = () => {
 
 
     const handleEdit = useCallback((video: any) => {
-        console.log("Editing video:", video.template_url);
+        // console.log("Editing video:", video.template_url);
         Set_template(video.template_url);
     }, []);
 
     const handleRender = useCallback((video: any) => {
-        console.log("Rendering video:", video.template_url);
+        // console.log("Rendering video:", video.template_url);
         Set_template(video.template_url);
         setTimeout(() => {
             renderMedia();

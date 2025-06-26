@@ -5,9 +5,12 @@ import React, {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store/store";
 import { updateClip } from "../../../app/store/clipsSlice";
-import { LuArrowDown, LuArrowLeft, LuArrowRight, LuArrowUp, LuFlipHorizontal2, LuFlipVertical2 } from "react-icons/lu";
+import {
+  //  LuArrowDown, LuArrowLeft, LuArrowRight, LuArrowUp, 
+  LuFlipHorizontal2, LuFlipVertical2 } from "react-icons/lu";
 import { TbBackground } from "react-icons/tb";
 import { PiSelectionBackground } from "react-icons/pi";
+import AnimationHelper from "../helper/animation_helper";
 const ImageEditTool: React.FC = () => {
   const Activeid = useSelector(
     (state: RootState) => state.editorTool.Activeid
@@ -46,6 +49,27 @@ const ImageEditTool: React.FC = () => {
   const [saturate, setSaturate] = useState(1);
   const [hueRotate, setHueRotate] = useState(0);
 
+  type AnimationType = "None" | "Fade" | "Zoom" | "Slide";
+  interface AnimationState {
+    type: AnimationType;
+    duration: number;
+    slideDistanceX?: number;
+    slideDistanceY?: number;
+  }
+
+  const [animationIn, setAnimationIn] = useState<AnimationState>({
+    type: "None",
+    duration: 1,
+    slideDistanceX: 0,
+    slideDistanceY: 0,
+  });
+
+  const [animationOut, setAnimationOut] = useState<AnimationState>({
+    type: "None",
+    duration: 1,
+    slideDistanceX: 0,
+    slideDistanceY: 0,
+  });
 
 
 
@@ -69,7 +93,24 @@ const ImageEditTool: React.FC = () => {
       setHueRotate(activeImage.properties.hueRotate || 0);
       setborderRadius(activeImage.properties.borderRadius);
       settransform(activeImage.properties.transform);
+
+
+      const { animation } = activeImage.properties;
+      setAnimationIn({
+        type: animation?.in?.type ?? "None",
+        duration: animation?.in?.duration ?? 1000,
+        slideDistanceX: animation?.in?.slideDistanceX ?? 0,
+        slideDistanceY: animation?.in?.slideDistanceY ?? 0,
+      });
+      setAnimationOut({
+        type: animation?.out?.type ?? "None",
+        duration: animation?.out?.duration ?? 1000,
+        slideDistanceX: animation?.out?.slideDistanceX ?? 0,
+        slideDistanceY: animation?.out?.slideDistanceY ?? 0,
+      });
     }
+
+
   }, [Activeid, Allclips]);
 
 
@@ -80,6 +121,10 @@ const ImageEditTool: React.FC = () => {
       updateClip({
         id: Activeid,
         properties: {
+          animation: {
+            in: animationIn,
+            out: animationOut,
+          },
           animationType,
           width,
           height,
@@ -96,7 +141,7 @@ const ImageEditTool: React.FC = () => {
           saturate,
           left: positionX,
           top: positionY,
-            ...updateproperties
+          ...updateproperties
         },
       })
     );
@@ -118,9 +163,10 @@ const ImageEditTool: React.FC = () => {
   };
   const [activeTab, setActiveTab] = useState<"Image" | "animation">("Image");
 
+  // const [InOutactiveTab, InOutsetActiveTab] = useState<"in" | "out">("in");
 
 
-// attached to the image bg 
+  // attached to the image bg 
   const bg_height = useSelector(
     (state: RootState) => state.slices.present.videoheight
   );
@@ -264,18 +310,18 @@ const ImageEditTool: React.FC = () => {
 
 
 
-          {/* bg attech disatech */}
-          <div>
-            <label className="theme-small-text mb-2">BG Attach/Detach</label>
-            <div className="flex gap-2">
-              <div className="btn-bx" onClick={() => BgAttech()}>
-                <TbBackground className="text-white" />
-              </div>
-              <div className="btn-bx" onClick={() => BgDAttech()}>
-                <PiSelectionBackground className="text-white" />
+            {/* bg attech disatech */}
+            <div>
+              <label className="theme-small-text mb-2">BG Attach/Detach</label>
+              <div className="flex gap-2">
+                <div className="btn-bx" onClick={() => BgAttech()}>
+                  <TbBackground className="text-white" />
+                </div>
+                <div className="btn-bx" onClick={() => BgDAttech()}>
+                  <PiSelectionBackground className="text-white" />
+                </div>
               </div>
             </div>
-          </div>
 
 
 
@@ -463,104 +509,593 @@ const ImageEditTool: React.FC = () => {
 
       {/* Animated image Options */}
       {activeTab === "animation" && (
-        <div className="grid grid-cols-2 gap-2 mt-2">
+        <AnimationHelper />
 
-          {/* Slide Left */}
-          <div
-            className={`animation-btn ${animationType === "Slide Left" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Slide Left");
-              update_value({ animationType: "Slide Left" });
-            }}
-          >
-            <button>
-              <div className="text-2xl"><LuArrowLeft /></div>
-              <div className="text-sm mt-1">Slide Left</div>
-            </button>
-          </div>
+        // <>
+        //   <div className="kd-tab-list style-2">
+        //     <button
+        //       onClick={() => InOutsetActiveTab("in")}
+        //       className={`kd-tab-btn ${InOutactiveTab === "in" ? "active" : ""}`}
+        //     >
+        //       In
+        //     </button>
+        //     <button
+        //       onClick={() => InOutsetActiveTab("out")}
+        //       className={`kd-tab-btn ${InOutactiveTab === "out" ? "active" : ""}`}
+        //     >
+        //       Out
+        //     </button>
+        //   </div>
 
-          {/* Slide Right */}
-          <div
-            className={`animation-btn ${animationType === "Slide Right" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Slide Right");
-              update_value({ animationType: "Slide Right" });
-            }}
-          >
-            <button>
-              <div className="text-2xl"><LuArrowRight /></div>
-              <div className="text-sm mt-1">Slide Right</div>
-            </button>
-          </div>
 
-          {/* Slide Top */}
-          <div
-            className={`animation-btn ${animationType === "Slide Top" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Slide Top");
-              update_value({ animationType: "Slide Top" });
-            }}
-          >
-            <button>
-              <div className="text-2xl"><LuArrowUp /></div>
-              <div className="text-sm mt-1">Slide Top</div>
-            </button>
-          </div>
 
-          {/* Slide Bottom */}
-          <div
-            className={`animation-btn ${animationType === "Slide Bottom" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Slide Bottom");
-              update_value({ animationType: "Slide Bottom" });
-            }}
-            
-          >
-            <button className="text-center">
-              <div className="text-2xl"><LuArrowDown /></div>
-              <div className="text-sm mt-1">Slide Bottom</div>
-            </button>
-          </div>
+        //   {InOutactiveTab === "in" && (
 
-          {/*Fade in */}
-          <div
-            className={`animation-btn ${animationType === "Fade in" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Fade in");
-              update_value({ animationType: "Fade in" });
-            }}
-          >
-            <button>
-              <div className="text-sm mt-1">Fade in</div>
-            </button>
-          </div>
-          {/* Zoom in */}
-          <div
-            className={`animation-btn ${animationType === "Zoom in" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Zoom in");
-              update_value({ animationType: "Zoom in" });
-            }}
-          >
-            <button>
-              <div className="text-sm mt-1">Zoom in</div>
-            </button>
-          </div>
 
-          {/* Zoom out */}
-          <div
-            className={`animation-btn ${animationType === "Zoom out" ? "animation-btn-active" : ""}`}
-            onClick={() => {
-              setanimationType("Zoom out");
-              update_value({ animationType: "Zoom out" });
-            }}
-          >
-            <button>
-              <div className="text-sm mt-1">Zoom out</div>
-            </button>
-          </div>
-        </div>
+        //     // <>
+        //     //   {/* 👇 Input sliders for Animation In */}
+        //     //   {/* <div className="mb-4 space-y-2">
+        //     //     <div>
+        //     //       <label className="theme-small-text  w-8/12">In Duration (ms)</label>
+        //     //       <input
+        //     //         className="kd-range-input"
+        //     //         type="range"
+        //     //         min={100}
+        //     //         max={5000}
+        //     //         step={100}
+        //     //         value={animationIn.duration}
+        //     //         onChange={(e) => {
+        //     //           const val = parseInt(e.target.value);
+        //     //           const newAnim = { ...animationIn, duration: val };
+        //     //           setAnimationIn(newAnim);
+        //     //           update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //         }}
+        //     //       />
+        //     //       <div className="theme-small-text">{animationIn.duration} ms</div>
+        //     //     </div>
 
+        //     //     <div>
+        //     //       <label className="theme-small-text mt-2 w-8/12">Slide Distance X slide left</label>
+        //     //       <input
+        //     //         className="kd-range-input"
+        //     //         type="range"
+        //     //         min={0}
+        //     //         max={400}
+        //     //         step={10}
+        //     //         value={Math.abs(animationIn.slideDistanceX ?? 0)}
+        //     //         onChange={(e) => {
+        //     //           const val = -parseInt(e.target.value);
+        //     //           const newAnim = { ...animationIn, slideDistanceX: val };
+        //     //           setAnimationIn(newAnim);
+        //     //           update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //         }}
+        //     //       />
+        //     //       <div className="theme-small-text">{animationIn.slideDistanceX}px</div>
+        //     //     </div>
+
+        //     //     <div>
+        //     //       <label className="theme-small-text mt-2 w-8/12">Slide Distance X slide right</label>
+        //     //       <input
+        //     //         className="kd-range-input"
+        //     //         type="range"
+        //     //         min={0}
+        //     //         max={400}
+        //     //         step={10}
+        //     //         value={animationIn.slideDistanceX}
+        //     //         onChange={(e) => {
+        //     //           const val = parseInt(e.target.value);
+        //     //           const newAnim = { ...animationIn, slideDistanceX: val };
+        //     //           setAnimationIn(newAnim);
+        //     //           update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //         }}
+        //     //       />
+        //     //       <div className="theme-small-text">{animationIn.slideDistanceX}px</div>
+        //     //     </div>
+        //     //     <div>
+        //     //       <label className="theme-small-text mt-2 w-8/12">Slide Distance Y slide top</label>
+        //     //       <input
+        //     //         className="kd-range-input"
+        //     //         type="range"
+        //     //         min={0}
+        //     //         max={400}
+        //     //         step={10}
+        //     //         value={Math.abs(animationIn.slideDistanceY ?? 0)}
+        //     //         onChange={(e) => {
+        //     //           const val = -parseInt(e.target.value);
+        //     //           const newAnim = { ...animationIn, slideDistanceY: val };
+        //     //           setAnimationIn(newAnim);
+        //     //           update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //         }}
+        //     //       />
+        //     //       <div className="theme-small-text">{animationIn.slideDistanceY}px</div>
+        //     //     </div>
+
+
+        //     //     <div>
+        //     //       <label className="theme-small-text mt-2 w-8/12">Slide Distance Y slide bottom</label>
+        //     //       <input
+        //     //         className="kd-range-input"
+        //     //         type="range"
+        //     //         min={0}
+        //     //         max={400}
+        //     //         step={10}
+        //     //         value={animationIn.slideDistanceY}
+        //     //         onChange={(e) => {
+        //     //           const val = parseInt(e.target.value);
+        //     //           const newAnim = { ...animationIn, slideDistanceY: val };
+        //     //           setAnimationIn(newAnim);
+        //     //           update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //         }}
+        //     //       />
+        //     //       <div className="theme-small-text">{animationIn.slideDistanceY}px</div>
+        //     //     </div>
+
+
+        //     //   </div> */}
+        //     //   {/* 👇 Input sliders for Animation In */}
+        //     //   <div className="mb-4 space-y-2">
+        //     //     {/* Duration - always show */}
+        //     //     <div>
+        //     //       <label className="theme-small-text w-8/12">In Duration (ms)</label>
+        //     //       <input
+        //     //         className="kd-range-input"
+        //     //         type="range"
+        //     //         min={100}
+        //     //         max={5000}
+        //     //         step={100}
+        //     //         value={animationIn.duration}
+        //     //         onChange={(e) => {
+        //     //           const val = parseInt(e.target.value);
+        //     //           const newAnim = { ...animationIn, duration: val };
+        //     //           setAnimationIn(newAnim);
+        //     //           update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //         }}
+        //     //       />
+        //     //       <div className="theme-small-text">{animationIn.duration} ms</div>
+        //     //     </div>
+
+        //     //     {/* Show only if Slide Left is selected */}
+        //     //     {animationType === "Slide Left" && (
+        //     //       <div>
+        //     //         <label className="theme-small-text mt-2 w-8/12">Slide Distance X (Left)</label>
+        //     //         <input
+        //     //           className="kd-range-input"
+        //     //           type="range"
+        //     //           min={0}
+        //     //           max={400}
+        //     //           step={10}
+        //     //           value={Math.abs(animationIn.slideDistanceX ?? 0)}
+        //     //           onChange={(e) => {
+        //     //             const val = -parseInt(e.target.value); // Negative for left
+        //     //             const newAnim = { ...animationIn, slideDistanceX: val };
+        //     //             setAnimationIn(newAnim);
+        //     //             update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //           }}
+        //     //         />
+        //     //         <div className="theme-small-text">{animationIn.slideDistanceX}px</div>
+        //     //       </div>
+        //     //     )}
+
+        //     //     {/* Slide Right */}
+        //     //     {animationType === "Slide Right" && (
+        //     //       <div>
+        //     //         <label className="theme-small-text mt-2 w-8/12">Slide Distance X (Right)</label>
+        //     //         <input
+        //     //           className="kd-range-input"
+        //     //           type="range"
+        //     //           min={0}
+        //     //           max={400}
+        //     //           step={10}
+        //     //           value={animationIn.slideDistanceX}
+        //     //           onChange={(e) => {
+        //     //             const val = parseInt(e.target.value); // Positive for right
+        //     //             const newAnim = { ...animationIn, slideDistanceX: val };
+        //     //             setAnimationIn(newAnim);
+        //     //             update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //           }}
+        //     //         />
+        //     //         <div className="theme-small-text">{animationIn.slideDistanceX}px</div>
+        //     //       </div>
+        //     //     )}
+
+        //     //     {/* Slide Top */}
+        //     //     {animationType === "Slide Top" && (
+        //     //       <div>
+        //     //         <label className="theme-small-text mt-2 w-8/12">Slide Distance Y (Top)</label>
+        //     //         <input
+        //     //           className="kd-range-input"
+        //     //           type="range"
+        //     //           min={0}
+        //     //           max={400}
+        //     //           step={10}
+        //     //           value={Math.abs(animationIn.slideDistanceY ?? 0)}
+        //     //           onChange={(e) => {
+        //     //             const val = -parseInt(e.target.value); // Negative for top
+        //     //             const newAnim = { ...animationIn, slideDistanceY: val };
+        //     //             setAnimationIn(newAnim);
+        //     //             update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //           }}
+        //     //         />
+        //     //         <div className="theme-small-text">{animationIn.slideDistanceY}px</div>
+        //     //       </div>
+        //     //     )}
+
+        //     //     {/* Slide Bottom */}
+        //     //     {animationType === "Slide Bottom" && (
+        //     //       <div>
+        //     //         <label className="theme-small-text mt-2 w-8/12">Slide Distance Y (Bottom)</label>
+        //     //         <input
+        //     //           className="kd-range-input"
+        //     //           type="range"
+        //     //           min={0}
+        //     //           max={400}
+        //     //           step={10}
+        //     //           value={animationIn.slideDistanceY}
+        //     //           onChange={(e) => {
+        //     //             const val = parseInt(e.target.value); // Positive for bottom
+        //     //             const newAnim = { ...animationIn, slideDistanceY: val };
+        //     //             setAnimationIn(newAnim);
+        //     //             update_value({ animation: { in: newAnim, out: animationOut } });
+        //     //           }}
+        //     //         />
+        //     //         <div className="theme-small-text">{animationIn.slideDistanceY}px</div>
+        //     //       </div>
+        //     //     )}
+        //     //   </div>
+
+        //     //   {/* 👇 Animation buttons with updated logic */}
+        //     //   <div className="grid grid-cols-2 gap-2 mt-2">
+        //     //     {/* Slide Left */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Slide Left" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Slide",
+        //     //           slideDistanceX: animationIn.slideDistanceX ?? -100,
+        //     //           slideDistanceY: 0,
+        //     //         };
+        //     //         setanimationType("Slide Left");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Slide Left", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-2xl"><LuArrowLeft /></div>
+        //     //         <div className="text-sm mt-1">Slide Left</div>
+        //     //       </button>
+        //     //     </div>
+
+        //     //     {/* Slide Right */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Slide Right" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Slide",
+        //     //           slideDistanceX: animationIn.slideDistanceX ?? 100,
+        //     //           slideDistanceY: 0,
+        //     //         };
+        //     //         setanimationType("Slide Right");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Slide Right", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-2xl"><LuArrowRight /></div>
+        //     //         <div className="text-sm mt-1">Slide Right</div>
+        //     //       </button>
+        //     //     </div>
+
+        //     //     {/* Slide Top */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Slide Top" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Slide",
+        //     //           slideDistanceX: 0,
+        //     //           slideDistanceY: animationIn.slideDistanceY ?? -100,
+        //     //         };
+        //     //         setanimationType("Slide Top");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Slide Top", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-2xl"><LuArrowUp /></div>
+        //     //         <div className="text-sm mt-1">Slide Top</div>
+        //     //       </button>
+        //     //     </div>
+
+        //     //     {/* Slide Bottom */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Slide Bottom" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Slide",
+        //     //           slideDistanceX: 0,
+        //     //           slideDistanceY: animationIn.slideDistanceY ?? 100,
+        //     //         };
+        //     //         setanimationType("Slide Bottom");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Slide Bottom", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-2xl"><LuArrowDown /></div>
+        //     //         <div className="text-sm mt-1">Slide Bottom</div>
+        //     //       </button>
+        //     //     </div>
+
+        //     //     {/* Fade In */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Fade in" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Fade",
+        //     //         };
+        //     //         setanimationType("Fade in");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Fade in", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-sm mt-1">Fade in</div>
+        //     //       </button>
+        //     //     </div>
+
+        //     //     {/* Zoom In */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Zoom in" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Zoom",
+        //     //         };
+        //     //         setanimationType("Zoom in");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Zoom in", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-sm mt-1">Zoom in</div>
+        //     //       </button>
+        //     //     </div>
+
+        //     //     {/* Zoom Out */}
+        //     //     <div
+        //     //       className={`animation-btn ${animationType === "Zoom out" ? "animation-btn-active" : ""}`}
+        //     //       onClick={() => {
+        //     //         const newAnim: AnimationState = {
+        //     //           ...animationIn,
+        //     //           type: "Zoom",
+        //     //         };
+        //     //         setanimationType("Zoom out");
+        //     //         setAnimationIn(newAnim);
+        //     //         update_value({ animationType: "Zoom out", animation: { in: newAnim, out: animationOut } });
+        //     //       }}
+        //     //     >
+        //     //       <button>
+        //     //         <div className="text-sm mt-1">Zoom out</div>
+        //     //       </button>
+        //     //     </div>
+        //     //   </div>
+        //     // </>
+        //   )}
+
+        //   {InOutactiveTab === "out" && (
+        //     <>
+        //       {/* 👇 Input sliders for Animation In */}
+        //       <div className="mb-4 space-y-2">
+        //         <div>
+        //           <label className="theme-small-text  w-8/12">In Duration (ms)</label>
+        //           <input
+        //             className="kd-range-input"
+        //             type="range"
+        //             min={100}
+        //             max={5000}
+        //             step={100}
+        //             value={animationOut.duration}
+        //             onChange={(e) => {
+        //               const val = parseInt(e.target.value);
+        //               const newAnim = { ...animationOut, duration: val };
+        //               setAnimationOut(newAnim);
+        //               // update_value({ animation: { in: newAnim, out: animationOut } });
+        //               update_value({ animation: { in: animationIn, out: newAnim } });
+        //             }}
+        //           />
+        //           <div className="theme-small-text">{animationOut.duration} ms</div>
+        //         </div>
+
+        //         <div>
+        //           <label className="theme-small-text mt-2 w-8/12">Slide Distance X</label>
+        //           <input
+        //             className="kd-range-input"
+        //             type="range"
+        //             min={-500}
+        //             max={500}
+        //             step={10}
+        //             value={animationOut.slideDistanceX}
+        //             onChange={(e) => {
+        //               const val = parseInt(e.target.value);
+        //               const newAnim = { ...animationOut, slideDistanceX: val };
+        //               setAnimationOut(newAnim);
+        //               // update_value({ animation: { in: newAnim, out: animationOut } });
+        //               update_value({ animation: { in: animationIn, out: newAnim } });
+        //             }}
+        //           />
+        //           <div className="theme-small-text">{animationOut.slideDistanceX}px</div>
+        //         </div>
+
+        //         <div>
+        //           <label className="theme-small-text mt-2 w-8/12">Slide Distance Y</label>
+        //           <input
+        //             className="kd-range-input"
+        //             type="range"
+        //             min={-500}
+        //             max={500}
+        //             step={10}
+        //             value={animationOut.slideDistanceY}
+        //             onChange={(e) => {
+        //               const val = parseInt(e.target.value);
+        //               const newAnim = { ...animationOut, slideDistanceY: val };
+        //               setAnimationOut(newAnim);
+        //               // update_value({ animation: { in: newAnim, out: animationOut } });
+        //               update_value({ animation: { in: animationIn, out: newAnim } });
+        //             }}
+        //           />
+        //           <div className="theme-small-text">{animationOut.slideDistanceY}px</div>
+        //         </div>
+        //       </div>
+
+        //       {/* 👇 Animation buttons with updated logic */}
+        //       <div className="grid grid-cols-2 gap-2 mt-2">
+        //         {/* Slide Left */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Slide Left" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Slide",
+        //               slideDistanceX: animationOut.slideDistanceX ?? -100,
+        //               slideDistanceY: 0,
+        //             };
+        //             setanimationType("Slide Left");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Slide Left", animation: { in: animationIn, out: newAnim } });
+
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-2xl"><LuArrowLeft /></div>
+        //             <div className="text-sm mt-1">Slide Left</div>
+        //           </button>
+        //         </div>
+
+        //         {/* Slide Right */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Slide Right" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Slide",
+        //               slideDistanceX: animationOut.slideDistanceX ?? 100,
+        //               slideDistanceY: 0,
+        //             };
+        //             setanimationType("Slide Right");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Slide Right", animation: { in: newAnim, out: animationOut } });
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-2xl"><LuArrowRight /></div>
+        //             <div className="text-sm mt-1">Slide Right</div>
+        //           </button>
+        //         </div>
+
+        //         {/* Slide Top */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Slide Top" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Slide",
+        //               slideDistanceX: 0,
+        //               slideDistanceY: animationOut.slideDistanceY ?? -100,
+        //             };
+        //             setanimationType("Slide Top");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Slide Top", animation: { in: newAnim, out: animationOut } });
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-2xl"><LuArrowUp /></div>
+        //             <div className="text-sm mt-1">Slide Top</div>
+        //           </button>
+        //         </div>
+
+        //         {/* Slide Bottom */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Slide Bottom" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Slide",
+        //               slideDistanceX: 0,
+        //               slideDistanceY: animationOut.slideDistanceY ?? 100,
+        //             };
+        //             setanimationType("Slide Bottom");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Slide Bottom", animation: { in: newAnim, out: animationOut } });
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-2xl"><LuArrowDown /></div>
+        //             <div className="text-sm mt-1">Slide Bottom</div>
+        //           </button>
+        //         </div>
+
+        //         {/* Fade In */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Fade in" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Fade",
+        //             };
+        //             setanimationType("Fade in");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Fade in", animation: { in: newAnim, out: animationOut } });
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-sm mt-1">Fade in</div>
+        //           </button>
+        //         </div>
+
+        //         {/* Zoom In */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Zoom in" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Zoom",
+        //             };
+        //             setanimationType("Zoom in");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Zoom in", animation: { in: newAnim, out: animationOut } });
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-sm mt-1">Zoom in</div>
+        //           </button>
+        //         </div>
+
+        //         {/* Zoom Out */}
+        //         <div
+        //           className={`animation-btn ${animationType === "Zoom out" ? "animation-btn-active" : ""}`}
+        //           onClick={() => {
+        //             const newAnim: AnimationState = {
+        //               ...animationOut,
+        //               type: "Zoom",
+        //             };
+        //             setanimationType("Zoom out");
+        //             setAnimationOut(newAnim);
+        //             update_value({ animationType: "Zoom out", animation: { in: newAnim, out: animationOut } });
+        //           }}
+        //         >
+        //           <button>
+        //             <div className="text-sm mt-1">Zoom out</div>
+        //           </button>
+        //         </div>
+        //       </div>
+        //     </>
+        //   )}
+
+        // </>
       )}
 
 
@@ -569,5 +1104,4 @@ const ImageEditTool: React.FC = () => {
 };
 
 export default ImageEditTool;
-
 

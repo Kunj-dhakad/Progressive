@@ -115,6 +115,20 @@ const ImageGrid: React.FC = () => {
           borderRadius: "0",
           transform: "",
           isDragging: false,
+          animation: {
+            in: {
+              type: "None",            
+              duration:60,
+              slideDistanceX: 0,
+              slideDistanceY: 0,     
+            },
+            out: {
+              type: "None",            
+              duration: 60,
+              slideDistanceX: 0,
+              slideDistanceY: 0,     
+            },
+          },
         },
       };
       dispatch(addClip(newClip));

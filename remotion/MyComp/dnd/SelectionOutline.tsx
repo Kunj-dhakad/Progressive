@@ -203,30 +203,91 @@ export const SelectionOutline: React.FC<{
     }, [item.properties.animationType, item.type])
   }
   // console.log(animattype)
+
+// new animation types
+let animation: any = undefined;
+let duration: number = 0;
+if (item.type === "image" && 'animation' in item.properties && 'duration' in item.properties) {
+  animation = (item.properties as any).animation;
+  duration = (item.properties as any).duration;
+}
+ 
+
+const getAnimation = (
+  type: "None" | "Fade" | "Zoom" | "Slide",
+  direction: "in" | "out",
+  duration: number,
+  totalDuration: number,
+  slideX = 0,
+  slideY = 0
+): ReturnType<typeof Move> | null => {
+  const start = direction === "in" ? 0 : totalDuration - duration;
+
+  switch (type) {
+    
+    case "Slide":
+      return Move({
+        x: slideX,
+        y: slideY,
+        start,
+        duration,
+      });
+
+    default:
+      return null;
+  }
+};
+
+
+  // ✅ Prepare animations and remove nulls
+  const animations = [
+    getAnimation(
+      animation?.in?.type ?? "None",
+      "in",
+      animation?.in?.duration ?? 0,
+      duration,
+      animation?.in?.slideDistanceX ?? 0,
+      animation?.in?.slideDistanceY ?? 0
+    ),
+    getAnimation(
+      animation?.out?.type ?? "None",
+      "out",
+      animation?.out?.duration ?? 0,
+      duration,
+      animation?.out?.slideDistanceX ?? 0,
+      animation?.out?.slideDistanceY ?? 0
+    ),
+  ].filter((a): a is ReturnType<typeof Move> => a !== null);
+
   return (
     <>
-      {animattype === "Slide Top" ? (
+      {item.type === "image" ? (
         <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
-          <Animated animations={[Move({ y: -40, start: 1, })]}>
+          <Animated  animations={animations}>
+            {contentElement}
+          </Animated>
+        </div>
+      ) : animattype === "Slide Top" ? (
+        <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
+          <Animated animations={[Move({ y: -40, start: 1 })]}>
             {contentElement}
           </Animated>
         </div>
       ) : animattype === "Slide Bottom" ? (
         <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
-          <Animated animations={[Move({ y: 40, start: 1, })]}>
+          <Animated animations={[Move({ y: 40, start: 1 })]}>
             {contentElement}
           </Animated>
         </div>
       ) : animattype === "Slide Left" ? (
         <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
-
-          <Animated animations={[Move({ x: -40, start: 1, })]}>
+          <Animated animations={[Move({ x: -40, start: 1 })]}>
             {contentElement}
           </Animated>
         </div>
       ) : animattype === "Slide Right" ? (
         <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
-          <Animated animations={[Move({ x: 40, start: 1, })]}>
+          <Animated animations={[Move({ x: 40, start: 1 })]}>
             {contentElement}
           </Animated>
         </div>

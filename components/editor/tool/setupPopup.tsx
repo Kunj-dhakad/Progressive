@@ -47,7 +47,7 @@ const SetupPopup: React.FC = () => {
   }
 
   const update_values_H_W = (h: number, w: number) => {
-    console.log(h, w)
+    // console.log(h, w)
     dispatch(updateVideoSettings({
       videowidth: w,
       videoheight: h,

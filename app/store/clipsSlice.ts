@@ -49,7 +49,6 @@ export interface ImageClip {
   type: 'image';
   properties: {
     src: string;
-    animationType: string;
     width: number;
     height: number;
     opacity: number;
@@ -72,6 +71,22 @@ export interface ImageClip {
     borderRadius: string;
     transform: string;
     isDragging: boolean;
+    animationType: string;
+   animation: {
+  in: {
+    type: "None" | "Fade" | "Zoom" | "Slide";
+    duration: number;
+    slideDistanceX?: number;
+    slideDistanceY?: number;
+  };
+  out: {
+    type: "None" | "Fade" | "Zoom" | "Slide";
+    duration: number;
+    slideDistanceX?: number;
+    slideDistanceY?: number;
+  };
+};
+
   };
 }
 export interface VideoClip {

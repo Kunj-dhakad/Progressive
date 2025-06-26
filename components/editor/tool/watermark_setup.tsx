@@ -5,7 +5,7 @@ import { RootState } from "../../../app/store/store";
 const useInitializeWatermark = () => {
   const dispatch = useDispatch();
   const projectSettings = useSelector((state: RootState) => state.settings);
-  console.log(projectSettings)
+  // console.log(projectSettings)
   const [watermark, setwatermark] = useState<{ url: string; condition: boolean } | null>(null);
 
  useEffect(() => {
