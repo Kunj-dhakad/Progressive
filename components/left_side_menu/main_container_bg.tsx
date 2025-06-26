@@ -91,6 +91,20 @@ const MainContainerBg: React.FC = () => {
                 borderRadius: "0",
                 transform: "",
                 isDragging: false,
+                animation: {
+                    in: {
+                        type: 'None',
+                        duration: 0,
+                        slideDistanceX: undefined,
+                        slideDistanceY: undefined
+                    },
+                    out: {
+                        type: 'None',
+                        duration: 0,
+                        slideDistanceX: undefined,
+                        slideDistanceY: undefined
+                    }
+                }
             },
         };
         dispatch(addClip(newClip));
