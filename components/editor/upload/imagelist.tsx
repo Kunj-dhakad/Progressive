@@ -91,8 +91,8 @@ const ImageList: React.FC = ({  }) => {
           maxWidth: 200,
           maxHeight: 200,
           objectFit: "",
-          top: bg_height / 2 - imageSize.height/2,
-          left: bg_width / 2 -imageSize.width/2,
+          top: bg_height / 2 - imageSize.height / 2,
+          left: bg_width / 2 - imageSize.width / 2,
           zindex: 1,
           contrast: 100,
           hueRotate: 0,
@@ -100,12 +100,26 @@ const ImageList: React.FC = ({  }) => {
           blur: 0,
           grayscale: 0,
           sepia: 0,
-          borderRadius:"0",
-          transform:"",
+          borderRadius: "0",
+          transform: "",
           brightness: 100,
           rotation: 0,
-          
+
           isDragging: false,
+          animation: {
+            in: {
+              type: 'None',
+              duration: 0,
+              slideDistanceX: undefined,
+              slideDistanceY: undefined
+            },
+            out: {
+              type: 'None',
+              duration: 0,
+              slideDistanceX: undefined,
+              slideDistanceY: undefined
+            }
+          }
         },
       };
       dispatch(addClip(newClip));
