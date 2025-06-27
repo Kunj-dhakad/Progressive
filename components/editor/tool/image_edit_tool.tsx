@@ -49,27 +49,27 @@ const ImageEditTool: React.FC = () => {
   const [saturate, setSaturate] = useState(1);
   const [hueRotate, setHueRotate] = useState(0);
 
-  type AnimationType = "None" | "Fade" | "Zoom" | "Slide";
-  interface AnimationState {
-    type: AnimationType;
-    duration: number;
-    slideDistanceX?: number;
-    slideDistanceY?: number;
-  }
+  // type AnimationType = "None" | "Fade" | "Zoom" | "Slide";
+  // interface AnimationState {
+  //   type: AnimationType;
+  //   duration: number;
+  //   slideDistanceX?: number;
+  //   slideDistanceY?: number;
+  // }
 
-  const [animationIn, setAnimationIn] = useState<AnimationState>({
-    type: "None",
-    duration: 1,
-    slideDistanceX: 0,
-    slideDistanceY: 0,
-  });
+  // const [animationIn, setAnimationIn] = useState<AnimationState>({
+  //   type: "None",
+  //   duration: 1,
+  //   slideDistanceX: 0,
+  //   slideDistanceY: 0,
+  // });
 
-  const [animationOut, setAnimationOut] = useState<AnimationState>({
-    type: "None",
-    duration: 1,
-    slideDistanceX: 0,
-    slideDistanceY: 0,
-  });
+  // const [animationOut, setAnimationOut] = useState<AnimationState>({
+  //   type: "None",
+  //   duration: 1,
+  //   slideDistanceX: 0,
+  //   slideDistanceY: 0,
+  // });
 
 
 
@@ -95,19 +95,19 @@ const ImageEditTool: React.FC = () => {
       settransform(activeImage.properties.transform);
 
 
-      const { animation } = activeImage.properties;
-      setAnimationIn({
-        type: animation?.in?.type ?? "None",
-        duration: animation?.in?.duration ?? 1000,
-        slideDistanceX: animation?.in?.slideDistanceX ?? 0,
-        slideDistanceY: animation?.in?.slideDistanceY ?? 0,
-      });
-      setAnimationOut({
-        type: animation?.out?.type ?? "None",
-        duration: animation?.out?.duration ?? 1000,
-        slideDistanceX: animation?.out?.slideDistanceX ?? 0,
-        slideDistanceY: animation?.out?.slideDistanceY ?? 0,
-      });
+      // const { animation } = activeImage.properties;
+      // setAnimationIn({
+      //   type: animation?.in?.type ?? "None",
+      //   duration: animation?.in?.duration ?? 1000,
+      //   slideDistanceX: animation?.in?.slideDistanceX ?? 0,
+      //   slideDistanceY: animation?.in?.slideDistanceY ?? 0,
+      // });
+      // setAnimationOut({
+      //   type: animation?.out?.type ?? "None",
+      //   duration: animation?.out?.duration ?? 1000,
+      //   slideDistanceX: animation?.out?.slideDistanceX ?? 0,
+      //   slideDistanceY: animation?.out?.slideDistanceY ?? 0,
+      // });
     }
 
 
@@ -121,10 +121,10 @@ const ImageEditTool: React.FC = () => {
       updateClip({
         id: Activeid,
         properties: {
-          animation: {
-            in: animationIn,
-            out: animationOut,
-          },
+          // animation: {
+          //   // in: animationIn,
+          //   // out: animationOut,
+          // },
           animationType,
           width,
           height,
