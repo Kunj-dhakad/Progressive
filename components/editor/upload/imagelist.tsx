@@ -5,7 +5,7 @@ import { addClip, ImageClip, updateClip } from '../../../app/store/clipsSlice';
 import { RootState } from "../../../app/store/store";
 
 
-const ImageList: React.FC = ({  }) => {
+const ImageList: React.FC = ({ }) => {
   const dispatch = useDispatch();
   const [images, setImages] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,7 +15,7 @@ const ImageList: React.FC = ({  }) => {
   const Allclips = useSelector((state: RootState) => state.slices.present.Allclips);
 
   const projectSettings = useSelector((state: RootState) => state.settings);
- 
+
   const bg_height = useSelector(
     (state: RootState) => state.slices.present.videoheight
   );
@@ -66,7 +66,7 @@ const ImageList: React.FC = ({  }) => {
       }
     }
     fetchdata()
-  }, [projectSettings.access_token, projectSettings.api_url,reLoadinglist])
+  }, [projectSettings.access_token, projectSettings.api_url, reLoadinglist])
 
 
 
@@ -111,13 +111,15 @@ const ImageList: React.FC = ({  }) => {
               type: 'None',
               duration: 0,
               slideDistanceX: undefined,
-              slideDistanceY: undefined
+              slideDistanceY: undefined,
+              degrees: undefined
             },
             out: {
               type: 'None',
               duration: 0,
               slideDistanceX: undefined,
-              slideDistanceY: undefined
+              slideDistanceY: undefined,
+              degrees: undefined
             }
           }
         },
@@ -133,7 +135,7 @@ const ImageList: React.FC = ({  }) => {
 
   return (
 
- <div className="p-2">
+    <div className="p-2">
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="loader kd-white-color">Loading...</div>
@@ -142,7 +144,7 @@ const ImageList: React.FC = ({  }) => {
         <div className="grid grid-cols-2 gap-4">
           {images.map((image, index) => (
             <div key={index} className="image-box-wrapper">
-               <Image
+              <Image
                 src={image.url}
                 width={200}
                 height={200}

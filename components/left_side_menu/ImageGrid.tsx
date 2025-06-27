@@ -120,13 +120,15 @@ const ImageGrid: React.FC = () => {
               type: "None",            
               duration:60,
               slideDistanceX: 0,
-              slideDistanceY: 0,     
+              slideDistanceY: 0, 
+              degrees: 0    
             },
             out: {
               type: "None",            
               duration: 60,
               slideDistanceX: 0,
-              slideDistanceY: 0,     
+              slideDistanceY: 0,  
+              degrees: 0   
             },
           },
         },

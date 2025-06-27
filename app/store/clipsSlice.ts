@@ -74,16 +74,18 @@ export interface ImageClip {
     animationType: string;
    animation: {
   in: {
-    type: "None" | "Fade" | "Zoom" | "Slide";
+    type: "None" | "Fade" | "Zoom" | "Slide"|"Rotate";
     duration: number;
     slideDistanceX?: number;
     slideDistanceY?: number;
+    degrees?: number;
   };
   out: {
-    type: "None" | "Fade" | "Zoom" | "Slide";
+    type: "None" | "Fade" | "Zoom" | "Slide"|"Rotate";
     duration: number;
     slideDistanceX?: number;
     slideDistanceY?: number;
+    degrees?: number;
   };
 };
 

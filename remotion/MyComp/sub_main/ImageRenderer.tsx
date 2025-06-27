@@ -181,7 +181,7 @@
 //   )
 // };
 import React from "react";
-import { AbsoluteFill, Img } from "remotion";
+import { AbsoluteFill, Easing, Img } from "remotion";
 import { ImageClip } from "../../../app/store/clipsSlice";
 import {
   Animated,
@@ -189,6 +189,8 @@ import {
   Fade,
   Move,
   Scale,
+  Rotate,
+  CustomEasing,
 } from "remotion-animated";
 
 interface ImageRendererProps {
@@ -196,12 +198,13 @@ interface ImageRendererProps {
 }
 
 const getAnimation = (
-  type: "None" | "Fade" | "Zoom" | "Slide",
+  type: "None" | "Fade" | "Zoom" | "Slide" | "Rotate",
   direction: "in" | "out",
   duration: number,
   totalDuration: number,
   slideX = 0,
-  slideY = 0
+  slideY = 0,
+  degrees = 0
 ): Animation | null => {
   const start = direction === "in" ? 0 : totalDuration - duration;
 
@@ -212,6 +215,7 @@ const getAnimation = (
         initial: direction === "in" ? 0 : 1,
         start,
         duration,
+        ease: CustomEasing(Easing.linear)
       });
 
     case "Zoom":
@@ -220,6 +224,7 @@ const getAnimation = (
         by: direction === "in" ? 1 : 0.5,
         start,
         duration,
+        ease: CustomEasing(Easing.linear)
       });
 
     case "Slide":
@@ -228,6 +233,15 @@ const getAnimation = (
         y: slideY,
         start,
         duration,
+        ease: CustomEasing(Easing.linear)
+      });
+
+    case "Rotate":
+      return Rotate({
+        degrees: degrees,
+        start,
+        duration,
+        ease: CustomEasing(Easing.linear)
       });
 
     default:
@@ -275,7 +289,8 @@ export const ImageRenderer: React.FC<ImageRendererProps> = ({ clip }) => {
       animation?.in?.duration ?? 0,
       duration,
       animation?.in?.slideDistanceX ?? 0,
-      animation?.in?.slideDistanceY ?? 0
+      animation?.in?.slideDistanceY ?? 0,
+      animation?.in?.degrees ?? 0
     ),
     getAnimation(
       animation?.out?.type ?? "None",
@@ -283,7 +298,8 @@ export const ImageRenderer: React.FC<ImageRendererProps> = ({ clip }) => {
       animation?.out?.duration ?? 0,
       duration,
       animation?.out?.slideDistanceX ?? 0,
-      animation?.out?.slideDistanceY ?? 0
+      animation?.out?.slideDistanceY ?? 0,
+      animation?.in?.degrees ?? 0
     ),
   ].filter((a): a is Animation => a !== null);
 

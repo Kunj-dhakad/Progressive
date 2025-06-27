@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useCurrentScale } from "remotion";
+import { Easing, useCurrentScale } from "remotion";
 import { ResizeHandle } from "./ResizeHandle";
 import {
   Allclips,
@@ -11,7 +11,7 @@ import {
 } from "../../../app/store/editorSetting";
 import { useDispatch } from "react-redux";
 import { ContextMenu } from "../../../components/editor/tool/ContextMenupopup";
-import { Animated, Move } from "remotion-animated";
+import { Animated, CustomEasing, Move, Rotate } from "remotion-animated";
 import { FloatingToolbar } from "../../../components/editor/tool/FloatingToolbar";
 export const SelectionOutline: React.FC<{
   item: Allclips;
@@ -45,7 +45,7 @@ export const SelectionOutline: React.FC<{
       left: item.properties.left,
       top: item.properties.top,
       rotate: `${item.properties.rotation}deg`,
-      position: "absolute",
+      position: "absolute" ,
       outline:
         (hovered && !isDragging) || isSelected
           ? `${scaledBorder}px solid  var( --kd-theme-primary)`
@@ -204,39 +204,48 @@ export const SelectionOutline: React.FC<{
   }
   // console.log(animattype)
 
-// new animation types
-let animation: any = undefined;
-let duration: number = 0;
-if (item.type === "image" && 'animation' in item.properties && 'duration' in item.properties) {
-  animation = (item.properties as any).animation;
-  duration = (item.properties as any).duration;
-}
- 
-
-const getAnimation = (
-  type: "None" | "Fade" | "Zoom" | "Slide",
-  direction: "in" | "out",
-  duration: number,
-  totalDuration: number,
-  slideX = 0,
-  slideY = 0
-): ReturnType<typeof Move> | null => {
-  const start = direction === "in" ? 0 : totalDuration - duration;
-
-  switch (type) {
-    
-    case "Slide":
-      return Move({
-        x: slideX,
-        y: slideY,
-        start,
-        duration,
-      });
-
-    default:
-      return null;
+  // new animation types
+  let animation: any = undefined;
+  let duration: number = 0;
+  if (item.type === "image" && 'animation' in item.properties && 'duration' in item.properties) {
+    animation = (item.properties as any).animation;
+    duration = (item.properties as any).duration;
   }
-};
+
+
+  const getAnimation = (
+    type: "None" | "Fade" | "Zoom" | "Slide" | "Rotate",
+    direction: "in" | "out",
+    duration: number,
+    totalDuration: number,
+    slideX = 0,
+    slideY = 0,
+    degrees = 0
+  ): ReturnType<typeof Move> | null => {
+    const start = direction === "in" ? 0 : totalDuration - duration;
+
+    switch (type) {
+
+      case "Slide":
+        return Move({
+          x: slideX,
+          y: slideY,
+          start,
+          duration,
+          ease: CustomEasing(Easing.linear)
+        });
+
+      case "Rotate":
+        return Rotate({
+          degrees: degrees,
+          start,
+          duration,
+          ease: CustomEasing(Easing.linear)
+        });
+      default:
+        return null;
+    }
+  };
 
 
   // ✅ Prepare animations and remove nulls
@@ -247,7 +256,9 @@ const getAnimation = (
       animation?.in?.duration ?? 0,
       duration,
       animation?.in?.slideDistanceX ?? 0,
-      animation?.in?.slideDistanceY ?? 0
+      animation?.in?.slideDistanceY ?? 0,
+      animation?.in?.degrees ?? 0
+
     ),
     getAnimation(
       animation?.out?.type ?? "None",
@@ -255,18 +266,84 @@ const getAnimation = (
       animation?.out?.duration ?? 0,
       duration,
       animation?.out?.slideDistanceX ?? 0,
-      animation?.out?.slideDistanceY ?? 0
+      animation?.out?.slideDistanceY ?? 0,
+      animation?.in?.degrees ?? 0
+
     ),
   ].filter((a): a is ReturnType<typeof Move> => a !== null);
 
   return (
     <>
       {item.type === "image" ? (
-        <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
-          <Animated  animations={animations}>
+
+        <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow, height: "100%", width: "100%" }}>
+
+          {/* <Animated
+            style={{ height: "100%", width: "100%" }}
+            animations={animations}>
             {contentElement}
-          </Animated>
+          </Animated> */}
+
+
+
+
+          <div
+            style={{ height: "100%", width: "100%" }}
+            onPointerDown={onPointerDown}
+            onPointerEnter={onMouseEnter}
+            onPointerLeave={onMouseLeave}
+            onContextMenu={oncontextmenu}
+            onClick={onclicktrack}
+          // onDoubleClick={onDoubleClick}//add for zindex lower set
+          >
+            {isSelected && !isDragging &&
+              <div
+                style={{
+                  left:
+                    item.properties.left + (item.properties.width + scaledBorder) / 2,
+                  top: item.properties.top - 200,
+                  zIndex: 9999,
+                }}
+                className="absolute "
+              >
+                <FloatingToolbar Allclip={item} />
+              </div>}
+
+            {/* <div style={{height:'100%',width:"100%"}}> */}
+               <Animated className="absolute" style={style} animations={animations}>
+              {/* <div style={style}> */}
+                {isSelected ? (
+                  <>
+                    <ResizeHandle item={item} setItem={changeItem} type="top-left" />
+                    <ResizeHandle item={item} setItem={changeItem} type="top-right" />
+                    <ResizeHandle item={item} setItem={changeItem} type="bottom-left" />
+                    <ResizeHandle item={item} setItem={changeItem} type="bottom-right" />
+
+                  </>
+                ) : null}
+              {/* </div> */}
+
+              </Animated>
+            {/* </div> */}
+
+            {isSelected && contextMenuVisible ? (
+              <div
+                style={{
+                  left:
+                    item.properties.left + item.properties.width + scaledBorder + 20,
+                  top: item.properties.top,
+                  zIndex: 9999,
+                }}
+                className="text-red-600 absolute "
+              >
+                <ContextMenu Allclip={item} />
+              </div>
+            ) : null}
+          </div>
+
         </div>
+
+
       ) : animattype === "Slide Top" ? (
         <div style={{ zIndex: (100 - item.properties.zindex) - zindexlow }}>
           <Animated animations={[Move({ y: -40, start: 1 })]}>
