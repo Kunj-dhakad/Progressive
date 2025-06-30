@@ -94,21 +94,26 @@ const AnimationHelper: React.FC = () => {
         if (label.includes("Left")) {
             slideData.slideDistanceX = -100;
             slideData.slideDistanceY = 0;
+            slideData.duration = 60;
         }
         if (label.includes("Right")) {
             slideData.slideDistanceX = 100;
             slideData.slideDistanceY = 0;
+            slideData.duration = 60;
         }
         if (label.includes("Top")) {
             slideData.slideDistanceY = -100;
             slideData.slideDistanceX = 0;
+            slideData.duration = 60;
         }
         if (label.includes("Bottom")) {
             slideData.slideDistanceY = 100;
             slideData.slideDistanceX = 0;
+            slideData.duration = 60;
         }
         if (label === "Rotate") {
             slideData.degrees = 60;
+            slideData.duration = 60;
         }
         return (
             <div
@@ -197,9 +202,9 @@ const AnimationHelper: React.FC = () => {
                         <input
                             className="kd-range-input"
                             type="range"
-                            min={1}
+                            min={30}
                             max={300}
-                            step={1}
+                            step={15}
                             value={animationIn.duration}
                             onChange={(e) => {
                                 const val = parseInt(e.target.value);
