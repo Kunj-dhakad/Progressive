@@ -44,6 +44,53 @@ export interface TextClip {
   };
 }
 
+// export interface ImageClip {
+//   id: string;
+//   type: 'image';
+//   properties: {
+//     src: string;
+//     width: number;
+//     height: number;
+//     opacity: number;
+//     start: number;
+//     duration: number;
+//     maxWidth: number;
+//     maxHeight: number;
+//     objectFit: string;
+//     top: number;
+//     left: number;
+//     zindex: number;
+//     contrast: number;
+//     hueRotate: number;
+//     saturate: number;
+//     blur: number;
+//     grayscale: number;
+//     sepia: number;
+//     brightness: number;
+//     rotation: number;
+//     borderRadius: string;
+//     transform: string;
+//     isDragging: boolean;
+//     animationType: string;
+//    animation: {
+//   in: {
+//     type: "None" | "Fade" | "Zoom" | "Slide"|"Rotate";
+//     duration: number;
+//     slideDistanceX?: number;
+//     slideDistanceY?: number;
+//     degrees?: number;
+//   };
+//   out: {
+//     type: "None" | "Fade" | "Zoom" | "Slide"|"Rotate";
+//     duration: number;
+//     slideDistanceX?: number;
+//     slideDistanceY?: number;
+//     degrees?: number;
+//   };
+// };
+
+//   };
+// }
 export interface ImageClip {
   id: string;
   type: 'image';
@@ -72,25 +119,28 @@ export interface ImageClip {
     transform: string;
     isDragging: boolean;
     animationType: string;
-   animation: {
-  in: {
-    type: "None" | "Fade" | "Zoom" | "Slide"|"Rotate";
-    duration: number;
-    slideDistanceX?: number;
-    slideDistanceY?: number;
-    degrees?: number;
-  };
-  out: {
-    type: "None" | "Fade" | "Zoom" | "Slide"|"Rotate";
-    duration: number;
-    slideDistanceX?: number;
-    slideDistanceY?: number;
-    degrees?: number;
-  };
-};
 
+    /** ✅ Now optional */
+    animation?: {
+      in: {
+        type: "None" | "Fade" | "Zoom" | "Slide" | "Rotate";
+        duration: number;
+        slideDistanceX?: number;
+        slideDistanceY?: number;
+        degrees?: number;
+      };
+      out: {
+        type: "None" | "Fade" | "Zoom" | "Slide" | "Rotate";
+        duration: number;
+        slideDistanceX?: number;
+        slideDistanceY?: number;
+        degrees?: number;
+      };
+    };
   };
 }
+
+
 export interface VideoClip {
   id: string;
   type: 'video';

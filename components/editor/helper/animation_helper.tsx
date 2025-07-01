@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store/store";
 import { updateClip } from "../../../app/store/clipsSlice";
 import { LuArrowDown, LuArrowLeft, LuArrowRight, LuArrowUp } from "react-icons/lu";
+import { FaArrowsRotate } from "react-icons/fa6";
+import { MdDoNotDisturbAlt } from "react-icons/md";
 
 type AnimationType = "None" | "Fade" | "Zoom" | "Slide" | "Rotate";
 interface AnimationState {
@@ -202,7 +204,7 @@ const AnimationHelper: React.FC = () => {
                         <input
                             className="kd-range-input"
                             type="range"
-                            min={30}
+                            min={15}
                             max={300}
                             step={15}
                             value={animationIn.duration}
@@ -246,14 +248,15 @@ const AnimationHelper: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 mt-2">
+                        {renderAnimationButton("None", "None", <MdDoNotDisturbAlt />, "in")}
+                        {renderAnimationButton("Rotate", "Rotate", <FaArrowsRotate />, "in")}
                         {renderAnimationButton("Slide Left", "Slide", <LuArrowLeft />, "in")}
                         {renderAnimationButton("Slide Right", "Slide", <LuArrowRight />, "in")}
                         {renderAnimationButton("Slide Top", "Slide", <LuArrowUp />, "in")}
                         {renderAnimationButton("Slide Bottom", "Slide", <LuArrowDown />, "in")}
                         {renderAnimationButton("Fade in", "Fade", undefined, "in")}
                         {renderAnimationButton("Zoom in", "Zoom", undefined, "in")}
-                        {renderAnimationButton("Rotate", "Rotate", undefined, "in")}
-                        {/* {renderAnimationButton("Zoom out", "Zoom", undefined, "in")} */}
+
                     </div>
                 </>
             )}
@@ -265,9 +268,9 @@ const AnimationHelper: React.FC = () => {
                         <input
                             className="kd-range-input"
                             type="range"
-                            min={1}
+                            min={15}
                             max={300}
-                            step={1}
+                            step={15}
                             value={animationOut.duration}
                             onChange={(e) => {
                                 const val = parseInt(e.target.value);
@@ -282,14 +285,15 @@ const AnimationHelper: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 mt-2">
+                        {renderAnimationButton("None", "None", <MdDoNotDisturbAlt />, "out")}
+                        {renderAnimationButton("Rotate", "Rotate", <FaArrowsRotate />, "out")}
                         {renderAnimationButton("Slide Left", "Slide", <LuArrowLeft />, "out")}
                         {renderAnimationButton("Slide Right", "Slide", <LuArrowRight />, "out")}
                         {renderAnimationButton("Slide Top", "Slide", <LuArrowUp />, "out")}
                         {renderAnimationButton("Slide Bottom", "Slide", <LuArrowDown />, "out")}
                         {renderAnimationButton("Fade out", "Fade", undefined, "out")}
-                        {/* {renderAnimationButton("Zoom in", "Zoom", undefined, "out")} */}
                         {renderAnimationButton("Zoom out", "Zoom", undefined, "out")}
-                        {renderAnimationButton("Rotate", "Rotate", undefined, "out")}
+
                     </div>
                 </>
             )}

@@ -256,8 +256,7 @@ const VideoGrid: React.FC = () => {
                 alt=""
                 onClick={() =>
                   compresthumbnail(
-                    // `${video.video_files[0].link}`,
-                    `https://kdmeditor.s3.us-east-1.amazonaws.com/kd_videoeditor/extra/generated_1748517690_6759.mp4`,
+                    `${video.video_files[0].link}`,
 
                     `${video.image}`,
                     video.video_files[0].height,
