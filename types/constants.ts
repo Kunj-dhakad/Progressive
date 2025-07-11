@@ -61,6 +61,7 @@ export const ImageClipSchema = z.object({
     transform: z.string(),
     isDragging: z.boolean(),
 
+    // ✅ Make animation optional
     animation: z.object({
       in: z.object({
         type: z.union([
@@ -69,6 +70,7 @@ export const ImageClipSchema = z.object({
           z.literal("Zoom"),
           z.literal("Slide"),
           z.literal("Rotate"),
+          z.literal("Custom"),
         ]),
         duration: z.number(),
         slideDistanceX: z.number().optional(),
@@ -82,15 +84,75 @@ export const ImageClipSchema = z.object({
           z.literal("Zoom"),
           z.literal("Slide"),
           z.literal("Rotate"),
+          z.literal("Custom"),
         ]),
         duration: z.number(),
         slideDistanceX: z.number().optional(),
         slideDistanceY: z.number().optional(),
         degrees: z.number().optional(),
       }),
-    }),
+    }).optional(),
   }),
 });
+// export const ImageClipSchema = z.object({
+//   id: z.string(),
+//   type: z.literal('image'),
+//   properties: z.object({
+//     animationType: z.string(),
+//     src: z.string(),
+//     width: z.number(),
+//     height: z.number(),
+//     opacity: z.number(),
+//     start: z.number(),
+//     duration: z.number(),
+//     maxWidth: z.number(),
+//     maxHeight: z.number(),
+//     objectFit: z.string(),
+//     top: z.number(),
+//     left: z.number(),
+//     zindex: z.number(),
+//     contrast: z.number(),
+//     hueRotate: z.number(),
+//     saturate: z.number(),
+//     blur: z.number(),
+//     grayscale: z.number(),
+//     sepia: z.number(),
+//     brightness: z.number(),
+//     rotation: z.number(),
+//     borderRadius: z.string(),
+//     transform: z.string(),
+//     isDragging: z.boolean(),
+
+//     animation: z.object({
+//       in: z.object({
+//         type: z.union([
+//           z.literal("None"),
+//           z.literal("Fade"),
+//           z.literal("Zoom"),
+//           z.literal("Slide"),
+//           z.literal("Rotate"),
+//         ]),
+//         duration: z.number(),
+//         slideDistanceX: z.number().optional(),
+//         slideDistanceY: z.number().optional(),
+//         degrees: z.number().optional(),
+//       }),
+//       out: z.object({
+//         type: z.union([
+//           z.literal("None"),
+//           z.literal("Fade"),
+//           z.literal("Zoom"),
+//           z.literal("Slide"),
+//           z.literal("Rotate"),
+//         ]),
+//         duration: z.number(),
+//         slideDistanceX: z.number().optional(),
+//         slideDistanceY: z.number().optional(),
+//         degrees: z.number().optional(),
+//       }),
+//     }),
+//   }),
+// });
 
 export const VideoClipSchema = z.object({
   id: z.string(),

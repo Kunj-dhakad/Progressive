@@ -215,11 +215,8 @@ const AnimationHelper: React.FC = () => {
                                 update_value({ animation: { in: newAnim, out: animationOut } });
                             }}
                         />
-
                         <div className="theme-small-text">{(animationIn.duration / 30).toFixed(2)}s</div>
-
                         {animationTypeIn === "Rotate" && (
-
                             <div>
                                 <label className="theme-small-text w-8/12">degrees</label>
                                 <input
