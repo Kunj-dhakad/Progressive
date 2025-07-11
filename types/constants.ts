@@ -84,7 +84,7 @@ export const ImageClipSchema = z.object({
           z.literal("Zoom"),
           z.literal("Slide"),
           z.literal("Rotate"),
-          z.literal("Custom"),
+         
         ]),
         duration: z.number(),
         slideDistanceX: z.number().optional(),
